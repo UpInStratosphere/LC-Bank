@@ -8,7 +8,8 @@
     - We treat every single stock price as a potential selling price, and derive the profit for that day by subtracting the min stock price before that day. If there we do one transaction, then it must involve one of these days as a selling day, so we pick the max profit from all the potential selling days.
     
 - 122 (complete as many transactions as possible)
-  - Key to correctly solve this problem is to recognize the local valley/peak buy/sell pattern. We want to divide each transaction as a non-overlapping continuous monotically increasing subarrays, we want to buy at the start of the subarray and sell at the end of the subarray. We use the next day's price to determine what to do for today, we either wait to buy, or sell. 
+  - Local valley/peak Greedy Solution. We want to divide each transaction as a non-overlapping continuous monotically increasing subarrays, we want to buy at the start of the subarray and sell at the end of the subarray. We use the next day's price to determine what to do for today, we either buy (when we do not have a stock and next day is higher), do nothing(because the next day is lower/higher than today's value), or sell(when we have a stock and next day is lower). 
+  - If we use the local valley/peak, we can also determine the buying/selling days.
   - why selling/buy on the same day does not matter.
     - when we will buy the stock: because you'll know the future stock prices, you will never buy at today's price when the next day's price is lower. So if the stock prices are 3,1,5. You will not buy on 3, you will wait until 1. So we buy WHENEVER we know the next day's price is higher, and when to sell only comes into consideration after we buy, which means now we are on an ascending subarray.
     - Now, if know the stock prices are 1,3,5. and today is 3. Why sell today and gain 2(3-1), buy again at today's price (3), and sell tomorrow and gain 2 (5-3). You are making an extra transaction compared to just hold on to the stock today and sell tomorrow at 5 and making the same total profit( 5-1).
@@ -21,12 +22,12 @@
       int maxProfit(vector<int>& prices) {
           if (prices.size() <= 1) return 0;
           int i = 0, buy, sell, profit = 0, len = prices.size() - 1;
-          while (i < len) { //buy must happen before sell 
-              while (i < len && prices[i + 1] <= prices[i]) //doesn't matter if we buy on the first or the last day of the same stock price. if we use <=, we buy on the last day of the same stock price. If we use <, then we buy on the first day of the same stock price.
+          while (i < len) { 
+              while (i < len && prices[i + 1] <= prices[i]) //buy at the end of a decreasing array
                   i++;
               buy = prices[i];
 
-              while (i < N && prices[i + 1] > prices[i]) 
+              while (i < N && prices[i + 1] > prices[i]) //the index will start from the buying index, and sell at the end of the increasing array
                   i++;
 
               sell = prices[i];
