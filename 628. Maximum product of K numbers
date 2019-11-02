@@ -1,0 +1,53 @@
+Max Product of 2/3/K numbers 
+  - logic
+    - The core procedure for this question is how to deal with input with mixed negative and positive integers. Because the product of two small (negative) integers could have a bigger result than 2 larger (positive) integers. 
+    - if the input is all negative/positive integers, then we would pick all the integers from one side
+      - in an all positive sequence, we take all from the right side (biggest K integers).
+      - in an all negative sequence
+        - if K is even, we take K integers from the left side (to have the largest positive product) - General algorithm applies
+        - if K is odd, we take K integers from the right side (to have the smallest negative product)
+    - if the sequence is mixed
+      - if K is odd, then pick from the right, then to find K-1 left and keep picking larger of the left/right pairs(so each time we pick two elements).
+      - if K is even, keep picking larger of the left/right pairs
+- code 
+
+```cpp
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums, int K) {
+        int n = nums.size();
+        if (n <= 2) return 0;
+        int l = 0, r = n-1;
+        int product = 1;
+        sort(nums.begin(), nums.end()); 
+        if(K % 2 == 1 && nums[l]*nums[r] >= 0){
+            while (K > 0){
+              product *= nums[r];
+              r--;
+            }
+            return product; 
+        }
+        
+        while(K > 0) { 
+            if(K % 2 == 1) {
+                product *= nums[r];
+                r--;
+                K--;
+            }
+            else {
+                if(nums[r]*nums[r-1] > nums[l]*nums[l+1]){
+                    product *= nums[r] * nums[r-1];
+                    r -= 2;
+                }
+                else{
+                    product *= nums[l] * nums[l+1];
+                    l += 2;
+                }
+                K -=2;
+            }
+        }
+        return product;
+    }
+};
+```
+
