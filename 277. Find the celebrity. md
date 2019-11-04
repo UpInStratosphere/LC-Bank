@@ -1,6 +1,8 @@
 - Logic
   - Think of the each person as a vertex in the graph, and we have an API that tells us whether the vertex has an outgoing edge OR whether it has an incoming edge from another vertex. The key is to determine if there exist a vertex that has no outcoming edges to any vertex and has incoming edges from all other vertices.
-  - knows(A,B) API can be considered to be an outgoing edge detection.
+  - knows(A,B) API can be considered to be an outgoing edge detection. Assume we have a celebrity node and a faker node that knows no one but the celebrity, and everyone knows him as well. 
+    - if the celebrity node is visited before the faker node, then all nodes after the celebrity node will know the real celebrity node (even the faker node). And the second pass will prove the celebrity node.
+    - if the faker node is before the celebrity node, it will stay a potential candidate until we reach the celebrity node, then the real celebrity node will replace the faker node as the candidate and second pass will prove the celebrity node
 
 - code 
 ```cpp
@@ -12,7 +14,7 @@ public:
         int candidate = 0; //initialize an initial vertex as a sink vertex
 
         for(int i=1; i<n; i++){
-            if (!knows(i,candidate)) //if there is no outgoing edge to this node, then this node cannot be a sink node, but the node that didn't have an outgoing edge might be the sink node, so we replace it with that node. How can we be sure 
+            if (!knows(i,candidate)) //if there is no outgoing edge to this node, then this node cannot be a sink node, but the node that didn't have an outgoing edge might be the sink node, so we replace it with that node. 
                 candidate = i;
         }
         for(int j=0; j<n; j++){//second iteration, if any node does not have an outgoing edge to the candidate OR the candidate has any outgoing edge to anyone else, then this is a false sink node.
