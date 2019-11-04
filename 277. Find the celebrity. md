@@ -4,24 +4,23 @@
 
 - code 
 ```cpp
-class Solution {
-public:
-    int findCelebrity(int n) {
-       
-        if(n<=1) return n;
-    
-        int candidate = 0; //initialize an initial vertex as a sink vertex
+  class Solution {
+  public:
+      int findCelebrity(int n) {
+          if(n<=1) return n;
 
-        for(int i=1; i<n; i++){
-            if (!knows(i,candidate)) //if there is no outgoing edge to this node, then this node cannot be a sink node, but the node that didn't have an outgoing edge might be the sink node, so we replace it with that node. How can we be sure 
-                candidate = i;
-        }
-        for(int j=0; j<n; j++){//second iteration, if any node does not have an outgoing edge to the candidate OR the candidate has any outgoing edge to anyone else, then this is a false sink node.
-            if(j== candidate) continue;
-            if(!knows(j,candidate) || knows(candidate,j)) 
-                return -1;
-        }
-        return candidate;
-    }
-};
+          int candidate = 0; //initialize an initial vertex as a sink vertex
+
+          for(int i=1; i<n; i++){
+              if (!knows(i,candidate)) //if there is no outgoing edge to this node, then this node cannot be a sink node, but the node that didn't have an outgoing edge might be the sink node, so we replace it with that node. How can we be sure 
+                  candidate = i;
+          }
+          for(int j=0; j<n; j++){//second iteration, if any node does not have an outgoing edge to the candidate OR the candidate has any outgoing edge to anyone else, then this is a false sink node.
+              if(j== candidate) continue;
+              if(!knows(j,candidate) || knows(candidate,j)) 
+                  return -1;
+          }
+          return candidate;
+      }
+  };
 ```
