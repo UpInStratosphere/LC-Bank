@@ -11,16 +11,13 @@
         int n = strs.size();
         for (int i = 1; i < n; i++){
             int len = min(res.size(), strs[i].size());
-            int index = -1;
-            //stop at the first mismatch chars btw the two strings and that is the new result 
+            int curr_len = 0;
             for (int j = 0; j < len; j++){
-                if (strs[i][j] == res[j]){
-                    index+=1;
-                }
-                else
+                if (strs[i][j] != res[j]){
                     break;
+                curr_len++;
             }
-            res = res.substr(0, index+1); //length = index-0+1
+            res = res.substr(0, curr_len); 
         }
         return res;
     }
