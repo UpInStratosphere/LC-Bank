@@ -1,0 +1,3 @@
+- How to deal when a colleague produces works you don't like?
+    - A strong reaction to a preference to a work is often a personal taste. So first need to figure out whether the work is objectively not up to standard or is it because it doesn't align with your personal taste (or your way of doing things). I found most of the time when my first reaction to disliking a work is because it wasn't done as I would've done. 
+    - find out whether the work have all the core features, if so. Then work together with the colleague to determine what part can be improved. 
