@@ -1,3 +1,8 @@
+## nodes && edges properties
+- symmetric property : undirected edge
+- transitive : nodes can be indirectly connected
+
+
 ## DFS
 - DFS will keep traverse down a path until the current node's has no more unprocessed neighbor nodes (all processed). The backtracking part means that paths will go down whenever possible, only returns back and explore another path in the upper level once all lower level paths are finished.
 
@@ -11,3 +16,7 @@
 ## BFS
 - used to find the shortest path between two nodes in a graph
 - a visited graph is also used. If a neighbor node is marked as visited, then it is either visited in a shorter path or visited previously in the same level. 
+
+
+
+## Union Find
