@@ -25,3 +25,44 @@
 
 
 ## Union Find
+
+```cpp
+class DSU {
+private:
+    unordered_map<int,int>parent; // node -> end root
+    unordered_map<int,int>rank;   // node -> rank
+public:
+    DSU(int nodes){ //initialize for each node in the graph
+        for (int i = 0; i < nodes; i++){
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    };
+    
+    //finding the root of the node
+    int find(int x){
+        if (parent[x] != x)
+            parent[x] = find(parent[x]);
+        return parent[x];
+    }
+    
+    //determine if the two nodes are already in the same component
+    bool connected(int x, int y){ 
+        return find(x) == find(y);
+    }
+    
+    //combine the sets if they are not in the same component. Union does not change the rank of the smaller ranked root
+    void merge(int x, int y){
+        int rootx = find(x);
+        int rooty = find(y);
+        if (rootx == rooty) return; //in the same component, no need to merge
+        else if (rank[rootx] > rank[rooty])
+            parent[rooty] = rootx;
+        else if (rank[rootx] < rank[rooty])
+            parent[rootx] = rooty;
+        else{
+            parent[rooty] = rootx;
+            rank[rootx]++;
+        }
+    }
+};
