@@ -29,13 +29,13 @@
 ```cpp
 class DSU {
 private:
-    unordered_map<int,int>parent; // node -> end root
-    unordered_map<int,int>rank;   // node -> rank
+    unordered_map<string,string>parent; // node -> end root
+    unordered_map<string,int>rank;   // node -> rank
 public:
-    DSU(int nodes){ //initialize for each node in the graph
-        for (int i = 0; i < nodes; i++){
-            parent[i] = i;
-            rank[i] = 0;
+    DSU(unordered_set<string>nodes){ //initialize for each node appeared in the given data
+        for (auto node : nodes){
+            parent[node] = node;
+            rank[node] = 0;
         }
     };
     
