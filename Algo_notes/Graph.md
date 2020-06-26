@@ -32,6 +32,7 @@ private:
     unordered_map<string,string>parent; // node -> end root
     unordered_map<string,int>rank;   // node -> rank
 public:
+    //if nodes are not given and need to determine from the edges, use below after putting all nodes in hashset
     DSU(unordered_set<string>nodes){ //initialize for each node appeared in the given data
         for (auto node : nodes){
             parent[node] = node;
