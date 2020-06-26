@@ -1,10 +1,11 @@
 ## nodes && edges properties
 - symmetric : symmetric indicates undirected graph. 
-- transitive 
-- directed vs indirected graph:
-    - for indirected graph, when building the graph using the edges given, need to add to both nodes
+- transitive : nodes can traverse through its neighbors and go to other connected nodes
+- directed vs indirected graph (when building the graph using the edges given) :
+    - for indirected graph, need to add to both nodes
     - for directed graph, just need to add for the src node
-
+- weighted vs. unweighted
+    - save the weight with the sink node 
 
 ## DFS
 - DFS will keep traverse down a path until the current node's has no more unprocessed neighbor nodes. Path will go down whenever possible, only comes back and explore next neighbor once all of the previous neighbor's paths are finished.
