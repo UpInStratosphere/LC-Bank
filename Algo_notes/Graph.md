@@ -33,7 +33,7 @@ private:
     unordered_map<string,int>rank;   // all valid nodes -> rank
     int components;
 public:
-    //if nodes are not given and need to determine from the edges, use below after putting all nodes in hashset
+    //if nodes given, use below
     DSU(unordered_set<string>nodes){ //initialize for each node appeared in the given data
         for (auto node : nodes){
             parent[node] = node;
@@ -42,11 +42,28 @@ public:
         components = nodes.size();
     };
     
+    //if not given, then process each edge separately.
+    DSU(){
+        parent = {};
+        rank = {};
+        components = 0;
+    };
+    
     //finding the root of the node
     int find(int x){
         if (parent[x] != x)
             parent[x] = find(parent[x]);
         return parent[x];
+    }
+    
+    
+    //Add a new node into the graph
+    bool setParent(int x){
+        if (parent.find(x) != parent.end()) return false;
+        parent[x] = x;
+        rank[x] = 0;
+        components++;
+        return true;
     }
     
     //combine the sets if they are not in the same component.
@@ -68,7 +85,14 @@ public:
         return true; //two components are merged into one, decrease total component count by 1
     }
     
-    int getCount(){ //use a class function to return the total count instead of doing it in the wrapper function
+    int getCount(){ //use a class getter function to return the total count
         return components;
     }
 };
+```
+
+
+
+
+
+
