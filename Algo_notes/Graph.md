@@ -29,12 +29,12 @@
 ```cpp
 class DSU {
 private:
-    unordered_map<string,string>parent; // all valid nodes -> end root
-    unordered_map<string,int>rank;   // all valid nodes -> rank
+    unordered_map<type,type>parent; // all valid nodes -> end root
+    unordered_map<type,int>rank;   // all valid nodes -> rank
     int components;
 public:
     //if nodes given, use below
-    DSU(unordered_set<string>nodes){ //initialize for each node appeared in the given data
+    DSU(unordered_set<type>nodes){ //initialize for each node appeared in the given data
         for (auto node : nodes){
             parent[node] = node;
             rank[node] = 0;
