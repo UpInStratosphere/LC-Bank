@@ -50,9 +50,9 @@ public:
     };
     
     //finding the root of the node
-    int find(int x){
+    int findParent(int x){
         if (parent[x] != x)
-            parent[x] = find(parent[x]);
+            parent[x] = findParent(parent[x]);
         return parent[x];
     }
     
