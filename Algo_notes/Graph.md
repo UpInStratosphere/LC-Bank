@@ -29,8 +29,9 @@
 ```cpp
 class DSU {
 private:
-    unordered_map<string,string>parent; // node -> end root
-    unordered_map<string,int>rank;   // node -> rank
+    unordered_map<string,string>parent; // all valid nodes -> end root
+    unordered_map<string,int>rank;   // all valid nodes -> rank
+    int components;
 public:
     //if nodes are not given and need to determine from the edges, use below after putting all nodes in hashset
     DSU(unordered_set<string>nodes){ //initialize for each node appeared in the given data
@@ -38,6 +39,7 @@ public:
             parent[node] = node;
             rank[node] = 0;
         }
+        components = nodes.size();
     };
     
     //finding the root of the node
@@ -47,17 +49,14 @@ public:
         return parent[x];
     }
     
-    //determine if the two nodes are already in the same component
-    bool connected(int x, int y){ 
-        return find(x) == find(y);
-    }
-    
-    //combine the sets if they are not in the same component. Union does not change the rank of the smaller ranked root
-    void merge(int x, int y){
+    //combine the sets if they are not in the same component.
+     bool merge(int x, int y){
         int rootx = find(x);
         int rooty = find(y);
-        if (rootx == rooty) return; //in the same component, no need to merge
-        else if (rank[rootx] > rank[rooty])
+        
+        if (rootx == rooty) return false; //in the same component, no need to merge
+        
+        if (rank[rootx] > rank[rooty])
             parent[rooty] = rootx;
         else if (rank[rootx] < rank[rooty])
             parent[rootx] = rooty;
@@ -65,5 +64,11 @@ public:
             parent[rooty] = rootx;
             rank[rootx]++;
         }
+        components--;
+        return true; //two components are merged into one, decrease total component count by 1
+    }
+    
+    int getCount(){ //use a class function to return the total count instead of doing it in the wrapper function
+        return components;
     }
 };
