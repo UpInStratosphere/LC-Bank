@@ -57,7 +57,7 @@ public:
     }
     
     
-    //Add a new node into the graph
+    //Add a new node into the graph - not needed if constructor initialzied all the nodes. Only need this if we don't know the nodes at the beginning
     bool setParent(int x){
         if (parent.find(x) != parent.end()) return false;
         parent[x] = x;
