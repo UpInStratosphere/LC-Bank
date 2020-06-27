@@ -42,7 +42,7 @@ public:
         components = nodes.size();
     };
     
-    //if not given, then process each edge separately.
+    //if not given, then build each node's set on the fly while processing each edge
     DSU(){
         parent = {};
         rank = {};
