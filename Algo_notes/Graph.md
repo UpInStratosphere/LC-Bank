@@ -50,29 +50,29 @@ public:
         // components = 0;
     };
     
-    //Add a new node into the graph, only used with initial empty constructor
-    
+    //if node not in graph, create a new set and return true
+    //if node already in graph, does nothing and return false
     bool setParent(int x){
         if (parent.find(x) != parent.end()) return false;
         parent[x] = x;
         rank[x] = 0;
-        // components++;
+        components++;
         return true;
     }
     
-    //finding the overall root of the curr node
+    //finding the overall root of the curr node. This depends on the graph already has the node
     type findParent(int x){
         if (parent[x] != x)
             parent[x] = findParent(parent[x]);
         return parent[x];
     }
     
-    //combine the sets if they are not in the same component.
+    //merge sets and return true if they are in separate sets. do nothing and return false if they are in the same set already.
      bool merge(int x, int y){
-        type rootx = find(x);
-        type rooty = find(y);
+        type rootx = findParent(x);
+        type rooty = findParent(y);
         
-        if (rootx == rooty) return false; //in the same component, no need to merge
+        if (rootx == rooty) return false;
         
         if (rank[rootx] > rank[rooty])
             parent[rooty] = rootx;
@@ -83,15 +83,13 @@ public:
             rank[rootx]++;
         }
         // components--;
-        return true; //two components are merged into one, decrease total component count by 1
+        return true; 
     }
     
-    /* 
-        int getCount(){ //use a class getter function to return the total count
-            return components;
+    int getCount(){ //use a class getter function to return the total count
+        return components;
     }
-    */
-    
+
 };
 ```
 
