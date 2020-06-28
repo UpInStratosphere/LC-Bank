@@ -31,7 +31,7 @@ class DSU {
 private:
     unordered_map<type,type>parent; // all valid nodes -> end root
     unordered_map<type,int>rank;   // all valid nodes -> rank
-    // int components;
+    int components;
 
 public:
     //if nodes given, use below
@@ -40,17 +40,17 @@ public:
             parent[node] = node;
             rank[node] = 0;
         }
-        // components = nodes.size();
+        components = nodes.size();
     };
     
     //if not given, then build DSU on the fly while processing each edge
     DSU(){
         parent = {};
         rank = {};
-        // components = 0;
+        components = 0;
     };
     
-    //if node not in graph, create a new set and return true
+    //if node not in graph, create a new set for each node in the edge and return true
     //if node already in graph, does nothing and return false
     bool setParent(int x){
         if (parent.find(x) != parent.end()) return false;
@@ -62,6 +62,7 @@ public:
     
     //finding the overall root of the curr node. This depends on the graph already has the node
     type findParent(int x){
+        if (parent.find(x) == parent.end()) return -1;
         if (parent[x] != x)
             parent[x] = findParent(parent[x]);
         return parent[x];
