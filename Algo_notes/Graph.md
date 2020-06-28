@@ -60,7 +60,7 @@ public:
         return true;
     }
     
-    //finding the overall root of the curr node. This depends on the graph already has the node
+    //need to return an indicator of some sort to indicate that x is not yet added into the dsu.
     type findParent(int x){
         //if (parent.find(x) == parent.end()) return INT_MIN;
         if (parent[x] != x)
@@ -98,19 +98,18 @@ public:
         for (auto node_rank: parent){
             int node = node_rank.first;
             int root = findParent(node);
-            cout << root << endl;
             freq[root]++;
             ans = max(ans, freq[root]);
         }
         return ans;
     }
 
-
     //for matrix only : if the neighbor cell is out of bound, or NOT YET visited as a valid node
     bool isValid(int m, int n, int x, int y){
         if (x < 0 || x >= m || y < 0 || y >= n || findParent(x*n+y) == INT_MIN) return false;
         return true;
     }
+    
 };
 ```
 
