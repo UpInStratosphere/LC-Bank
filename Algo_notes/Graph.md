@@ -31,7 +31,8 @@ class DSU {
 private:
     unordered_map<type,type>parent; // all valid nodes -> end root
     unordered_map<type,int>rank;   // all valid nodes -> rank
-    int components;
+    // int components;
+
 public:
     //if nodes given, use below
     DSU(unordered_set<type>nodes){ //initialize for each node appeared in the given data
@@ -39,37 +40,37 @@ public:
             parent[node] = node;
             rank[node] = 0;
         }
-        components = nodes.size();
+        // components = nodes.size();
     };
     
-    //if not given, then build each node's set on the fly while processing each edge
+    //if not given, then build DSU on the fly while processing each edge
     DSU(){
         parent = {};
         rank = {};
-        components = 0;
+        // components = 0;
     };
     
-    //finding the root of the node
-    int findParent(int x){
+    //Add a new node into the graph, only used with initial empty constructor
+    
+    bool setParent(int x){
+        if (parent.find(x) != parent.end()) return false;
+        parent[x] = x;
+        rank[x] = 0;
+        // components++;
+        return true;
+    }
+    
+    //finding the overall root of the curr node
+    type findParent(int x){
         if (parent[x] != x)
             parent[x] = findParent(parent[x]);
         return parent[x];
     }
     
-    
-    //Add a new node into the graph - not needed if constructor initialzied all the nodes. Only need this if we don't know the nodes at the beginning
-    bool setParent(int x){
-        if (parent.find(x) != parent.end()) return false;
-        parent[x] = x;
-        rank[x] = 0;
-        components++;
-        return true;
-    }
-    
     //combine the sets if they are not in the same component.
      bool merge(int x, int y){
-        int rootx = find(x);
-        int rooty = find(y);
+        type rootx = find(x);
+        type rooty = find(y);
         
         if (rootx == rooty) return false; //in the same component, no need to merge
         
@@ -81,13 +82,16 @@ public:
             parent[rooty] = rootx;
             rank[rootx]++;
         }
-        components--;
+        // components--;
         return true; //two components are merged into one, decrease total component count by 1
     }
     
-    int getCount(){ //use a class getter function to return the total count
-        return components;
+    /* 
+        int getCount(){ //use a class getter function to return the total count
+            return components;
     }
+    */
+    
 };
 ```
 
