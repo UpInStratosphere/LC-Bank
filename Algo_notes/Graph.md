@@ -50,6 +50,16 @@ public:
         components = 0;
     };
     
+    
+    //The main work function : uses path compression
+    type findParent(int x){
+        //if (parent.find(x) == parent.end()) return INT_MIN;
+        if (parent[x] != x)
+            parent[x] = findParent(parent[x]);
+        return parent[x];
+    }
+    
+    
     //if node not in graph, create a new set for each node in the edge and return true
     //if node already in graph, does nothing and return false
     bool setParent(int x){
@@ -58,14 +68,6 @@ public:
         rank[x] = 0;
         components++;
         return true;
-    }
-    
-    //need to return an indicator of some sort to indicate that x is not yet added into the dsu.
-    type findParent(int x){
-        //if (parent.find(x) == parent.end()) return INT_MIN;
-        if (parent[x] != x)
-            parent[x] = findParent(parent[x]);
-        return parent[x];
     }
     
     //merge sets and return true if they are in separate sets. do nothing and return false if they are in the same set already.
@@ -92,9 +94,9 @@ public:
     }
     
     
-    int getMax(){ //use a class getter function to return the max component
+    int getMax(){ //use a class getter function to return the max component. technically this is O(Vlog*(V)), so O(V).
         int ans = 0;
-        unordered_map<int,int>freq;
+        unordered_map<int,int>freq; 
         for (auto node_rank: parent){
             int node = node_rank.first;
             int root = findParent(node);
