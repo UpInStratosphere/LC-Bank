@@ -62,7 +62,7 @@ public:
     
     //finding the overall root of the curr node. This depends on the graph already has the node
     type findParent(int x){
-        if (parent.find(x) == parent.end()) return -1;
+        //if (parent.find(x) == parent.end()) return INT_MIN;
         if (parent[x] != x)
             parent[x] = findParent(parent[x]);
         return parent[x];
@@ -83,14 +83,34 @@ public:
             parent[rooty] = rootx;
             rank[rootx]++;
         }
-        // components--;
+        components--;
         return true; 
     }
     
     int getCount(){ //use a class getter function to return the total count
         return components;
     }
+    
+    
+    int getMax(){ //use a class getter function to return the max component
+        int ans = 0;
+        unordered_map<int,int>freq;
+        for (auto node_rank: parent){
+            int node = node_rank.first;
+            int root = findParent(node);
+            cout << root << endl;
+            freq[root]++;
+            ans = max(ans, freq[root]);
+        }
+        return ans;
+    }
 
+
+    //for matrix only : if the neighbor cell is out of bound, or NOT YET visited as a valid node
+    bool isValid(int m, int n, int x, int y){
+        if (x < 0 || x >= m || y < 0 || y >= n || findParent(x*n+y) == INT_MIN) return false;
+        return true;
+    }
 };
 ```
 
