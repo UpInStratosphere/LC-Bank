@@ -99,7 +99,7 @@ public:
         unordered_map<int,int>freq; 
         for (auto node_rank: parent){
             int node = node_rank.first;
-            int root = findParent(node);
+            int root = findParent(node); //if dsu is initialized, then can just use the existing hashmap's answer.
             freq[root]++;
             ans = max(ans, freq[root]);
         }
