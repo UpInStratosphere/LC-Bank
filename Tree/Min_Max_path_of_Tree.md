@@ -13,12 +13,16 @@ int maxDepth(TreeNode* root) {
 
 void DFS(TreeNode *node, int curr, int &res){
     if (!node) return;
+    
     curr++;
+    
     if (!node->left && !node->right){
         res = max(res, curr);
         return;
     }
-    DFS(node->left, curr, res);
-    DFS(node->right, curr, res);
+    else{
+        DFS(node->left, curr, res);
+        DFS(node->right, curr, res);
+    }
 }
 ```
