@@ -18,7 +18,6 @@ void DFS(TreeNode *node, int curr, int &res){
     
     if (!node->left && !node->right){
         res = max(res, curr);
-        return;
     }
     else{
         DFS(node->left, curr, res);
