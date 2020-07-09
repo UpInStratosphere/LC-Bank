@@ -1,7 +1,8 @@
 - since all rows's elements are sorted, and all columns are sorted, that means the each row can be treated as a sorted sequence, and can use min heap to extra K smallest out of all .
     - the sorted columns ensures the fact that if K < total rows, then we don't need to push all the row's first num into the heap.
     - time : if X = min(K, rows), X + KlogX
-
+    - Note: for each current number, consider this number as the top-left num of a rectangle - all numbers in the rectangle are bigger than the current number. Therefore, when considering the next global smallest number, none of those numbers can be added into the heap until the current number is popped from the heap.
+    
 ```cpp
 class Solution {
 private:
