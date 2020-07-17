@@ -1,0 +1,44 @@
+- getting the max rooms is easy with delta treemap + sweepline
+- follow up: give all the time where we will need max rooms
+    - use another treemap to track total rooms for each time while getting the max rooms
+    - scan through the total room tree map again to find all the time frame for each max
+
+
+```cpp
+ int minMeetingRooms(vector<vector<int>>& intervals) {
+    if (intervals.empty()) return 0;
+    map<int,int>rooms; 
+    for (auto interval : intervals){
+        int start = interval[0], end = interval[1];
+        rooms[start]++;
+        rooms[end]--; 
+    }
+    map<int,int>rooms2;    
+    int res = 0, curr = 0;
+    for (auto time_meeting: rooms){
+        curr += time_meeting.second;
+        rooms2[time_meeting.first] = curr;
+        res = max(res, curr);
+    }
+    vector<vector<int>>ans;
+    int start = -1, end = -1;
+    
+    //scan through the total room treemap to get all the timeframes with max rooms
+    for (auto entry : rooms2){
+        if (entry.second == res){
+            if (start == -1)
+                start = entry.first;
+        }
+        else if (entry.second < res){
+            if (start != -1){
+                ans.push_back({start, entry.first-1});
+                start = -1;
+            }
+        }       
+    }
+    for (auto entry : ans){
+        cout << "start is " << entry[0] << ", end is " << entry[1] << endl;
+    }  
+    return res;
+}
+    ```
