@@ -1,0 +1,32 @@
+- find the max of total node sum given the constraints and if all nodes are positive
+- use postorder where the max amount robbed in the current tree depends on the max amount robbed in the children trees
+    - if use DP on trees, then the DFS must be postorder
+    - also this is a question where each tree depends on the answer from subtrees first
+```cpp
+int rob(TreeNode* root) {
+        if (!root) return 0;
+        unordered_map<TreeNode*, int>memo;
+        return helper(root, memo);
+    }
+    
+int helper(TreeNode *node, unordered_map<TreeNode*, int>&memo){
+    if (!node) return 0;
+    if (memo.find(node) != memo.end()) return memo[node];
+
+    int res = 0;
+    int rob_node = node->val;
+
+    if (node->left){
+        rob_node += helper(node->left->left, memo) + helper(node->left->right, memo);
+    }
+    if (node->right){
+        rob_node += helper(node->right->left, memo) + helper(node->right->right, memo);
+    }
+
+    int not_node = helper(node->left, memo) + helper(node->right, memo);
+
+    res = max(rob_node, not_node);
+    memo[node] = res;
+    return res;    
+}
+```
