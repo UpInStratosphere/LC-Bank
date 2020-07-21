@@ -40,11 +40,6 @@ bool DFS(const string &word, const unordered_set<string>&dict, unordered_map<str
         if (dict.find(prefix) != dict.end()){
             string suffix = word.substr(i);
             //dict does not contain word itself, so will never encounter the prefix is the word itself situation.
-            //whenever suffix is empty, meaning curr word is broken down into >= 2 parts
-            if (suffix.empty()){
-                memo[word] = true;
-                return true;
-            }
             //even if a smaller word cannot be broken down, it can be used to break curr word down
             bool curr = dict.find(suffix) != dict.end() || DFS(suffix, dict, memo);
             if (curr){
