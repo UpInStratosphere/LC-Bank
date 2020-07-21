@@ -1,0 +1,59 @@
+- extension of word break
+    - each word can only use words that are smaller than curr word (same word can be used repeatedly - ex: dogdog)
+    - sort each word and use the previous words as the dict to test to see if the curr word can be broken down
+    - **even if a smaller word cannot be broken down, it can be used to break down bigger words**
+        - checking whether a suffix can be broken down is not enough
+        - also need to check whether the suffix can be used (in the current dict hashset)
+- steps
+    - sort word by size
+    - check each word with curr hashset, then add curr word to hashset
+    - check function : check whether suffix can be found OR whether suffix can be broken down
+
+
+```cpp
+vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        if (words.empty()) return vector<string>{};
+        auto comp = [](string&a, string&b){
+            return a.size() < b.size();
+        };
+        sort(words.begin(), words.end(), comp);
+        
+        vector<string>res;
+        unordered_map<string,bool>memo;
+        unordered_set<string>dict;
+        for (int i = 0; i < words.size(); i++){
+            bool temp = DFS(words[i], dict, memo);
+            if (temp) res.push_back(words[i]);
+            dict.insert(words[i]);
+            
+        }
+        return res;
+    }
+    
+
+bool DFS(const string &word, const unordered_set<string>&dict, unordered_map<string, bool>&memo){
+
+    if (memo.find(word) != memo.end()) return memo[word];
+
+    for (int i = 1; i <= word.size(); i++){
+        string prefix = word.substr(0,i);
+        if (dict.find(prefix) != dict.end()){
+            string suffix = word.substr(i);
+            //dict does not contain word itself, so will never encounter the prefix is the word itself situation.
+            //whenever suffix is empty, meaning curr word is broken down into >= 2 parts
+            if (suffix.empty()){
+                memo[word] = true;
+                return true;
+            }
+            //even if a smaller word cannot be broken down, it can be used to break curr word down
+            bool curr = dict.find(suffix) != dict.end() || DFS(suffix, dict, memo);
+            if (curr){
+                memo[word] = true;
+                return true;
+            }
+        }
+    }
+    memo[word] = false;
+    return false;
+}
+```
