@@ -6,3 +6,13 @@
 
 - How to deal with a colleague that's difficult to work with?
     - 
+
+
+- how to work with colleague that needs to improve their performance?
+    - first determine is there a pattern? Everyone has off days 
+    - if so, then determine the reason for the subpar performance and the area of improvement
+        - performance : objective or subjective
+        - reason: interpersonal or object-focused
+    - come up with plans and give similar assignments that they struggled with and see the result (if possible)
+    - rinse and repeat until performance can be improved within the timeline scope
+    - sometimes things just don't work out, that's when to cut the loss
