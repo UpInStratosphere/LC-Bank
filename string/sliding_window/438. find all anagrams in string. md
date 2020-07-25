@@ -1,0 +1,33 @@
+Similar to min window substring, we want to find all the different substrings that contain the target substring
+- the shortest window possible that contains all the characters would be an anagram of the target substring
+- have an additional check for each valid min window 
+
+
+```cpp
+    vector<int> findAnagrams(string s, string t) {
+    if (t.size() > s.size()) return vector<int>();
+    unordered_map<char,int>target; 
+    for (auto c : t)
+        target[c]++;
+
+    int start = 0, n = s.size(), counter = target.size();
+    vector<int>res;
+    
+    for (int end = 0; end < n; ++end){
+        target[s[end]]--;
+        if (target[s[end]] == 0)
+            counter--;
+        while (counter == 0){
+            int len = end-start+1;
+            if (len == t.size())
+                res.push_back(start);
+
+            target[s[start]]++;
+            if (target[s[start]] == 1)
+                counter++;
+            start++;
+        }
+    }
+    return res;
+}
+```
