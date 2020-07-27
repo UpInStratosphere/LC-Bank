@@ -1,0 +1,47 @@
+Prefix sliding window method. O(N) time and O(1) space
+
+```cpp
+int numberOfSubarrays(vector<int>& nums, int k) {
+    if (nums.empty() || k == 0) return 0;
+    return helper(nums, k) - helper(nums, k-1);
+}
+
+int helper(vector<int>&nums, int target){
+    int n = nums.size();
+    int start = 0, res = 0, counter = 0;
+    for (int end = 0; end < n; end++){
+        int curr = nums[end];
+        if (curr % 2 != 0)
+            counter++;
+        while(counter > target){
+            int temp = nums[start];
+            if (temp % 2 != 0)
+                counter--;
+            start++;
+        }
+        res += end-start;
+    }
+    return res;
+}
+```
+
+Prefix sum hashmap method. O(N) time and O(N) space
+- prefix and suffix odd number counts are independent of each other (unlike unique numbers)
+```cpp
+ numberOfSubarrays(vector<int>& nums, int k) {
+    if (nums.empty()) return 0;
+    int total = nums.size(), counter = 0, res = 0;
+    unordered_map<int,int>prefix_freq;
+    for (int i = 0; i < total; i++){
+        if (nums[i] % 2 == 1)
+            counter++;
+        if (counter == k)
+            res+=1;
+        if (prefix_freq.find(counter-k) != prefix_freq.end())
+            res+=prefix_freq[counter-k];
+        prefix_freq[counter]++;
+    }
+    return res;
+}
+```
+
