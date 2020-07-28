@@ -1,0 +1,23 @@
+find all subarrays that uses each number as an end
+- All positive numbers == monotonic result as we scan from left to right
+- less < K means there is a clear binary condition when to expand and when to shrink the current window
+    - expand the window when the current window product is < K
+    - shrink when the current window product is >= K
+- edge case is when all the numbers are 1 and K is 1, to deal with this, we add an additional check in the while loop so the start will never pass the current end 
+
+```cpp
+int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+    if (nums.empty() || k <= 0) return 0;
+    int curr = 1, n = nums.size(), start = 0;
+    int res = 0;
+    for (int end = 0; end < n; end++){
+        curr *= nums[end];
+        while(start <= end && curr >= k){
+            curr /= nums[start];
+            start++;
+        }
+        res += (end-start+1); //all numbers from [start:end-1] and [end] itself can a valid subarray start that ends at curr
+    }
+    return res;
+}
+```
