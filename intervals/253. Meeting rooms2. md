@@ -26,7 +26,7 @@
     //scan through the total room treemap to get all the timeframes with max rooms
     for (auto entry : rooms2){
         if (entry.second == res){
-            if (start == -1)
+            if (start == -1) // if start is already an index, then that means curr index is just an interval continuation 
                 start = entry.first;
         }
         else if (entry.second < res){
@@ -36,9 +36,6 @@
             }
         }       
     }
-    for (auto entry : ans){
-        cout << "start is " << entry[0] << ", end is " << entry[1] << endl;
-    }  
     return res;
 }
-    ```
+```
