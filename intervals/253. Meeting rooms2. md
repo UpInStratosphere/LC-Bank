@@ -1,4 +1,5 @@
 - getting the max rooms is easy with delta treemap + sweepline
+    - sweepline give us the number of overlapping intervals at a specific point
 - follow up: give all the time where we will need max rooms
     - use another treemap to track total rooms for each time while getting the max rooms
     - scan through the total room tree map again to find all the time frame for each max
