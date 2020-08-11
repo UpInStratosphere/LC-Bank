@@ -62,13 +62,13 @@ public:
     
     //path compression for merging: Olog*(V)
     type findParent(int x){
-        //if (parent.find(x) == parent.end()) return INT_MIN;
+        if (parent.find(x) == parent.end()) return INT_MIN;
         if (parent[x] != x)
             parent[x] = findParent(parent[x]);
         return parent[x];
     }
     
-    //merge nodes if they are in separate sets. do nothing already in the same set.
+    //merge nodes if they are in separate sets. do nothing already in the same set. O(Log*(V))
      bool merge(int x, int y){ //O(log*(V))
         type rootx = findParent(x);
         type rooty = findParent(y);
