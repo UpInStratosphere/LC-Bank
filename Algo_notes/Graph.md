@@ -51,18 +51,8 @@ public:
     };
     
     
-    //The main work function : uses path compression
-    type findParent(int x){
-        //if (parent.find(x) == parent.end()) return INT_MIN;
-        if (parent[x] != x)
-            parent[x] = findParent(parent[x]);
-        return parent[x];
-    }
-    
-    
-    //if node not in graph, create a new set for each node in the edge and return true
-    //if node already in graph, does nothing and return false
-    bool setParent(int x){
+    //create new node in the components or do nothing if already exists
+    bool setParent(int x){ //O(1)
         if (parent.find(x) != parent.end()) return false;
         parent[x] = x;
         rank[x] = 0;
@@ -70,8 +60,16 @@ public:
         return true;
     }
     
-    //merge sets and return true if they are in separate sets. do nothing and return false if they are in the same set already.
-     bool merge(int x, int y){
+    //path compression for merging: Olog*(V)
+    type findParent(int x){
+        //if (parent.find(x) == parent.end()) return INT_MIN;
+        if (parent[x] != x)
+            parent[x] = findParent(parent[x]);
+        return parent[x];
+    }
+    
+    //merge nodes if they are in separate sets. do nothing already in the same set.
+     bool merge(int x, int y){ //O(log*(V))
         type rootx = findParent(x);
         type rooty = findParent(y);
         
@@ -89,17 +87,16 @@ public:
         return true; 
     }
     
-    int getCount(){ //use a class getter function to return the total count
+    int getCount(){ //O(1)
         return components;
     }
     
-    
-    int getMax(){ //use a class getter function to return the max component. technically this is O(Vlog*(V)), so O(V).
+    int getMax(){ //Amortized this is O(Vlog*(V)), so O(V).
         int ans = 0;
         unordered_map<int,int>freq; 
         for (auto node_rank: parent){
             int node = node_rank.first;
-            int root = findParent(node); //if dsu is initialized, then can just use the existing hashmap's answer.
+            int root = findParent(node); 
             freq[root]++;
             ans = max(ans, freq[root]);
         }
@@ -107,7 +104,7 @@ public:
     }
 
     //for matrix only : if the neighbor cell is out of bound, or NOT YET visited as a valid node
-    bool isValid(int m, int n, int x, int y){
+    bool isValid(int m, int n, int x, int y){ //O(Log*(V))
         if (x < 0 || x >= m || y < 0 || y >= n || findParent(x*n+y) == INT_MIN) return false;
         return true;
     }
