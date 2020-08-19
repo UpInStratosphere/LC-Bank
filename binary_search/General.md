@@ -1,0 +1,4 @@
+- Search space must be sorted AND the target must be within the range of the first and last element
+- Inside the while loop, use a local variable to save the valid curr[mid] comparison as the best candidate
+- always use the curr[mid] comparison against target to determine which half of the elements to drop/keep
+    - [mid] should always be used to compare against A target 
