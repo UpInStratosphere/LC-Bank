@@ -52,7 +52,7 @@ public:
     
     
     //create new node in the components or do nothing if already exists
-    bool setParent(int x){ //O(1)
+    bool createNode(int x){ //O(1)
         if (parent.find(x) != parent.end()) return false;
         parent[x] = x;
         rank[x] = 0;
@@ -61,7 +61,7 @@ public:
     }
     
     //path compression for merging: Olog*(V)
-    type findParent(int x){
+    int findParent(int x){
         if (parent.find(x) == parent.end()) return INT_MIN;
         if (parent[x] != x)
             parent[x] = findParent(parent[x]);
