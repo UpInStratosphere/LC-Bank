@@ -1,4 +1,4 @@
-- How to represent the current problem with initial parameters
+- How to represent the main problem with initial parameters
     - this determines the subproblems' parameters 
 - At the function for the current problem, how does the current problem relate to the smaller subproblems
     - subproblem's parameters depends on the form of the initial problem's parameter
