@@ -1,8 +1,9 @@
 - How to represent the main problem with initial parameters
     - this determines the subproblems' parameters 
-- At the function for the current problem, how does the current problem relate to the smaller subproblems
-    - usually for the intermediate problem / curr function, there are multi-branched recursion on subproblems. Different combination of the upper functions (upper level nodes conenctions) will arrive at the duplicate subproblems (lower level nodes in a DAG).
-    - How to "combine" the answers from subproblems to find the answer for the current level
+- At the current problem, how to break current problem into smaller subproblems
+    - Different combination of the upper functions (upper level nodes connections) will result duplicate subproblems (lower level nodes in a DAG).
+    - usually there are multi-branched recursion for each function. 
+    - How to "combine" the answers from subproblems.
 - What are the NECESSARY base cases
 
 
