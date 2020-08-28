@@ -1,0 +1,52 @@
+- Each letter in a word length from the start could be a potential start, so try them all.
+- use hashmap to quickly locate whether the curr word is found in the dict
+  - if it is not, then the curr window is completely trashed (no substring containing the curr word can be a valid window), so move the curr window behind the invalid word
+  - if it is AND together it is within the dict's freq, then curr window so far is still good
+  - if it is BUT it is more than the dict's freq, then delete from the start until the curr word freq no more than dict
+- total time : O(KN)  N is the length of string, and K is the word length
+    - each char in the string is checked against the hashmap in the form of a word (substring)
+    - K is from the fact that there are potentially K starting points
+
+```cpp
+vector<int> findSubstring(string s, vector<string>& words) {
+      vector<int>res;
+      int n = s.size(), cnt = words.size();
+      if (n <= 0 || cnt <= 0) return res;
+      unordered_map<string, int> dict;
+      for (string word : words)
+          dict[word]++;
+      int wl = words[0].size();
+      for (int i = 0; i < wl; ++i){
+          int start = i, count = 0; //count is the number of words that are matched in curr window
+          unordered_map<string,int>temp; //used to cache the curr window's words
+          for (int j = i; j <= n-wl; j+=wl){ //j is the starting char of each word checked
+              string str = s.substr(j, wl);
+              if (dict.find(str) != dict.end()){
+                  temp[str]++;
+                  if (temp[str] <= dict[str])
+                      count++;
+                  else { //the string ocurred more than in the dict, shrink the curr window
+                      while (temp[str] > dict[str]){
+                          string str1 = s.substr(start, wl);
+                          temp[str1]--;
+                          if (temp[str1] < dict[str1]) count--;
+                          start += wl;
+                      }
+                  }
+                  if (count == cnt) {
+                      res.push_back(start);
+                      temp[s.substr(start, wl)]--;
+                      count--;
+                      start += wl;
+                  }
+              }
+              else { // not a valid word in dict, reset the curr window to after the invalid word
+                  temp.clear();
+                  count = 0;
+                  start = j + wl;
+              }
+          }
+      }
+      return res;
+  }
+  ```
