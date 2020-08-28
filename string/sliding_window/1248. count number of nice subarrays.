@@ -19,7 +19,7 @@ int helper(vector<int>&nums, int target){
                 counter--;
             start++;
         }
-        res += end-start+1;
+        res += end-start;
     }
     return res;
 }
