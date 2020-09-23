@@ -62,8 +62,8 @@ public:
     
     //path compression for merging: Olog*(V)
     int findParent(int x){
-        if (parent.find(x) == parent.end()) return INT_MIN;
-        if (parent[x] != x)
+        if (parent.find(x) == parent.end()) return INT_MIN; //doesn't exist in the graph
+        if (parent[x] != x) //finds and updates all the group's nodes parent to the same node.
             parent[x] = findParent(parent[x]);
         return parent[x];
     }
@@ -75,6 +75,7 @@ public:
         
         if (rootx == rooty) return false;
         
+        //merge sets by changing the rep of one group to the rep of the other group's rep. But doesn't necessarily align all the merged set's node's rep to the same rep. This is why we need to call find parent function for each node to align the rep node to get the total count of each node rep when we need the max rep count.
         if (rank[rootx] > rank[rooty])
             parent[rooty] = rootx;
         else if (rank[rootx] < rank[rooty])
