@@ -61,9 +61,10 @@ public:
     }
     
     //path compression for merging: Olog*(V)
+    //finds and updates all the group's nodes parent to the same node.
     int findParent(int x){
         if (parent.find(x) == parent.end()) return INT_MIN; //doesn't exist in the graph
-        if (parent[x] != x) //finds and updates all the group's nodes parent to the same node.
+        if (parent[x] != x) 
             parent[x] = findParent(parent[x]);
         return parent[x];
     }
