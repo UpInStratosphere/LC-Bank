@@ -34,6 +34,8 @@ private:
     int components;
 
 public:
+    //constructors
+    
     //if nodes given, use below
     DSU(unordered_set<type>nodes){ //initialize for each node appeared in the given data
         for (auto node : nodes){
@@ -51,15 +53,23 @@ public:
     };
     
     
-    //create new node in the components or do nothing if already exists
-    bool createNode(int x){ //O(1)
-        if (parent.find(x) != parent.end()) return false;
+    //single node check/creation
+    
+    //find if a node exists in the set
+    bool findNode(int x){
+        if (parent.find(x) != parent.end()) return true;
+        return false;
+    }
+    
+    //create new node in the component if it doesnt exist 
+    void createNode(int x){ //O(1)
+        if (findNode(x)) return;
         parent[x] = x;
         rank[x] = 0;
         components++;
-        return true;
     }
     
+    //core operation: find/merge
     //path compression for merging: Olog*(V)
     //finds and updates all the group's nodes parent to the same node.
     int findParent(int x){
@@ -70,13 +80,16 @@ public:
     }
     
     //merge nodes if they are in separate sets. do nothing already in the same set. O(Log*(V))
-     bool merge(int x, int y){ //O(log*(V))
+    //merge sets by changing the rep of one group to the rep of the other group's rep. 
+    //But doesn't necessarily align all the merged set's node's rep to the same rep. 
+    //components are updated, but not all the nodes in the merged set will have the same parent via merge function alone 
+    bool merge(int x, int y){ //O(log*(V))
         type rootx = findParent(x);
         type rooty = findParent(y);
         
         if (rootx == rooty) return false;
         
-        //merge sets by changing the rep of one group to the rep of the other group's rep. But doesn't necessarily align all the merged set's node's rep to the same rep. This is why we need to call find parent function for each node to align the rep node to get the total count of each node rep when we need the max rep count.
+        //only reset the parent node for the set's rep node
         if (rank[rootx] > rank[rooty])
             parent[rooty] = rootx;
         else if (rank[rootx] < rank[rooty])
@@ -89,6 +102,9 @@ public:
         return true; 
     }
     
+    
+    //component information
+    
     int getCount(){ //O(1)
         return components;
     }
@@ -98,19 +114,12 @@ public:
         unordered_map<int,int>freq; 
         for (auto node_rank: parent){
             int node = node_rank.first;
-            int root = findParent(node); 
+            int root = findParent(node); //merge function did not reset parent node of all nodes in the same set. 
             freq[root]++;
             ans = max(ans, freq[root]);
         }
         return ans;
     }
-
-    //for matrix only : if the neighbor cell is out of bound, or NOT YET visited as a valid node
-    bool isValid(int m, int n, int x, int y){ //O(Log*(V))
-        if (x < 0 || x >= m || y < 0 || y >= n || findParent(x*n+y) == INT_MIN) return false;
-        return true;
-    }
-    
 };
 ```
 
