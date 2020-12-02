@@ -83,6 +83,7 @@ public:
     //merge sets by changing the rep of one group to the rep of the other group's rep. 
     //But doesn't necessarily align all the merged set's node's rep to the same rep. 
     //components are updated, but not all the nodes in the merged set will have the same parent via merge function alone 
+    //parents hashmap doesn't reflect the group status 
     bool merge(int x, int y){ //O(log*(V))
         type rootx = findParent(x);
         type rooty = findParent(y);
@@ -114,7 +115,7 @@ public:
         unordered_map<int,int>freq; 
         for (auto node_rank: parent){
             int node = node_rank.first;
-            int root = findParent(node); //merge function did not reset parent node of all nodes in the same set. 
+            int root = findParent(node); //used to fix the parents hashmap to reflect the component state
             freq[root]++;
             ans = max(ans, freq[root]);
         }
