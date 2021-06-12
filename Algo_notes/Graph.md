@@ -38,11 +38,8 @@ public:
     
     //if nodes given, use below
     DSU(unordered_set<type>nodes){ //initialize for each node appeared in the given data
-        for (auto node : nodes){
-            parent[node] = node;
-            rank[node] = 0;
-        }
-        components = nodes.size();
+        for (auto node : nodes) 
+            createNode(node);
     };
     
     //if not given, then build DSU on the fly while processing each edge
