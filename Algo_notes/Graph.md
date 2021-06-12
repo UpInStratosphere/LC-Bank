@@ -50,8 +50,6 @@ public:
     };
     
     
-    //single node check/creation
-    
     //find if a node exists in the set
     bool findNode(int x){
         if (parent.find(x) != parent.end()) return true;
@@ -66,28 +64,23 @@ public:
         components++;
     }
     
-    //core operation: find/merge
-    //path compression for merging: Olog*(V)
-    //finds and updates all the group's nodes parent to the same node.
+    //find the identity of the group that the node belongs
+    //path compression: standardization that updates and fix any inconsistency of all nodes in the set
     int findParent(int x){
-        if (parent.find(x) == parent.end()) return INT_MIN; //doesn't exist in the graph
-        if (parent[x] != x) 
-            parent[x] = findParent(parent[x]);
+        if (parent[x] != x) parent[x] = findParent(parent[x]);
         return parent[x];
     }
     
-    //merge nodes if they are in separate sets. do nothing already in the same set. O(Log*(V))
-    //merge sets by changing the rep of one group to the rep of the other group's rep. 
-    //But doesn't necessarily align all the merged set's node's rep to the same rep. 
-    //components are updated, but not all the nodes in the merged set will have the same parent via merge function alone 
-    //parents hashmap doesn't reflect the group status 
+    //merge nodes if they are in separate sets. do nothing already in the same set. 
+    //merge does not standardize all nodes of the new set, only changing the rep of the merging group into the merged group
+    //all nodes in the merging group besides the rep still have their old info (inconsistency still exist)  
     bool merge(int x, int y){ //O(log*(V))
-        type rootx = findParent(x);
+        type rootx = findParent(x); 
         type rooty = findParent(y);
         
         if (rootx == rooty) return false;
         
-        //only reset the parent node for the set's rep node
+        //merge two groups by reseting the info of rep node of the merging set to the info of the rep node of the merged set 
         if (rank[rootx] > rank[rooty])
             parent[rooty] = rootx;
         else if (rank[rootx] < rank[rooty])
@@ -107,12 +100,12 @@ public:
         return components;
     }
     
-    int getMax(){ //Amortized this is O(Vlog*(V)), so O(V).
+    int getMaxComponent(){ //Amortized this is O(Vlog*(V)), so O(V).
         int ans = 0;
         unordered_map<int,int>freq; 
         for (auto node_rank: parent){
             int node = node_rank.first;
-            int root = findParent(node); //used to fix the parents hashmap to reflect the component state
+            int root = findParent(node); //used to fix the inconsistency of all the nodes that were left behind after merging
             freq[root]++;
             ans = max(ans, freq[root]);
         }
